@@ -231,7 +231,7 @@ if PlotDiff:
 
     plt.show()
 
-PlotR = True
+PlotR = False
 if PlotR:
     # Extract x, y, z
     x = ratio_aligned[:,0]
@@ -244,4 +244,39 @@ if PlotR:
     plt.ylabel(r'Collection ratio diff.')
     plt.plot(r, z, 'o')
     plt.grid(True)
+    plt.show()
+
+PlotText = True
+if PlotText:
+    # Extract x, y, z
+    x = ratio_aligned[:,0]
+    y = ratio_aligned[:,1]
+    r = np.sqrt(x**2 + y**2)
+    z = ratio_new_a
+    z_mis = ratio_new
+
+    fig, ax = plt.subplots()
+
+    # Show grid lines for visual clarity (optional)
+    # Major ticks at integers 0–4
+    ax.set_xticks(np.arange(0, 5, 1))
+    ax.set_yticks(np.arange(0, 5, 1))
+
+    # Minor ticks at every 0.5, starting from -0.5 to 4.5
+    ax.set_xticks(np.arange(-0.25, 5.25, 0.5), minor=True)
+    ax.set_yticks(np.arange(-0.25, 5.25, 0.5), minor=True)
+    ax.grid(True, which="minor", color="black", linestyle="-", linewidth=1)
+
+    # Put text at the center of each bin
+    for i in range(len(x)):
+        ax.text(x[i], y[i] + 0.12, round(100*z[i], 2), 
+                    ha="center", va="center", color="#4477aa", fontsize = 14)
+        ax.text(x[i], y[i] - 0.12, round(100*z_mis[i], 2), 
+                    ha="center", va="center", color="#ee6677", fontsize = 14)
+
+    ax.set_aspect('equal')
+    ax.set_xlim(-0.25, 4.25)
+    ax.set_ylim(-0.25, 4.25)
+    ax.set_xlabel(r'$x$ [cm]')
+    ax.set_ylabel(r'$y$ [cm]')
     plt.show()
